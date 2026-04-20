@@ -1,0 +1,88 @@
+// Version: 1.0.0
+type AlreadyActivated__309316156 =
+  {
+    accountNumber : Text;
+    createdAt : Text;
+    exportedAt : Text;
+    extraInfo : ?Text;
+    fullName : Text;
+    ghanaCardBackKey : ExternalBlob__246066408;
+    ghanaCardFrontKey : ExternalBlob__246066408;
+    ghanaCardSelfieKey : ExternalBlob__246066408;
+    id : Nat;
+    phoneNumber : Text
+  };
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type DormantAccount__799171755 =
+  {
+    accountName : Text;
+    accountNumber : Text;
+    branch : Text;
+    dateOfDormancy : Text
+  };
+type ExternalBlob__246066408 = Blob;
+type FollowupRecord__393848655 =
+  {
+    accountName : Text;
+    accountNumber : Text;
+    createdAt : Text;
+    id : Nat;
+    phoneNumber : Text
+  };
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type Map__158565046<K, V> = Map__297112838<K, V>;
+type Map__297112838<K, V> =
+  {var root : Node__46230540<K, V>; var size : Nat__490723111};
+type Map__605269027<K, V> = Map__158565046<K, V>;
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type OnlineReactivation__134008291 =
+  {
+    accountNumber : Text;
+    activatedAt : ?Text;
+    createdAt : Text;
+    extraInfo : ?Text;
+    fullName : Text;
+    ghanaCardBackKey : ExternalBlob__246066408;
+    ghanaCardFrontKey : ExternalBlob__246066408;
+    ghanaCardSelfieKey : ExternalBlob__246066408;
+    id : Nat;
+    phoneNumber : Text;
+    status : Text
+  };
+type UserRole__1054455867 = {#admin; #guest; #user};
+actor {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__605269027<Principal, UserRole__1054455867>
+    };
+  stable activated :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?AlreadyActivated__309316156]];
+      var elementIndex : Nat__490723111
+    };
+  stable dormantAccounts :
+    {
+      var root : Node__46230540<Text, DormantAccount__799171755>;
+      var size : Nat__490723111
+    };
+  stable followups :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?FollowupRecord__393848655]];
+      var elementIndex : Nat__490723111
+    };
+  stable reactivations :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?OnlineReactivation__134008291]];
+      var elementIndex : Nat__490723111
+    }
+};

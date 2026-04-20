@@ -1,0 +1,145 @@
+type _ImmutableObjectStorageRefillResult = 
+ record {
+   success: opt bool;
+   topped_up_amount: opt nat;
+ };
+type _ImmutableObjectStorageRefillInformation = record {
+                                                  proposed_top_up_amount:
+                                                   opt nat;};
+type _ImmutableObjectStorageCreateCertificateResult = 
+ record {
+   blob_hash: text;
+   method: text;
+ };
+type VerifyResult = 
+ record {
+   accountName: opt text;
+   accountNumber: opt text;
+   found: bool;
+   message: text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type PublicationAccount = 
+ record {
+   accountName: text;
+   branch: text;
+   dateOfDormancy: text;
+ };
+type OnlineReactivation = 
+ record {
+   accountNumber: text;
+   activatedAt: opt text;
+   createdAt: text;
+   extraInfo: opt text;
+   fullName: text;
+   ghanaCardBackKey: ExternalBlob;
+   ghanaCardFrontKey: ExternalBlob;
+   ghanaCardSelfieKey: ExternalBlob;
+   id: nat;
+   phoneNumber: text;
+   status: text;
+ };
+type FollowupRecord = 
+ record {
+   accountName: text;
+   accountNumber: text;
+   createdAt: text;
+   id: nat;
+   phoneNumber: text;
+ };
+type ExternalBlob = blob;
+type DormantAccount = 
+ record {
+   accountName: text;
+   accountNumber: text;
+   branch: text;
+   dateOfDormancy: text;
+ };
+type AlreadyActivated = 
+ record {
+   accountNumber: text;
+   createdAt: text;
+   exportedAt: text;
+   extraInfo: opt text;
+   fullName: text;
+   ghanaCardBackKey: ExternalBlob;
+   ghanaCardFrontKey: ExternalBlob;
+   ghanaCardSelfieKey: ExternalBlob;
+   id: nat;
+   phoneNumber: text;
+ };
+service : {
+  _immutableObjectStorageBlobsAreLive: (hashes: vec blob) -> (vec bool) query;
+  _immutableObjectStorageBlobsToDelete: () -> (vec blob) query;
+  _immutableObjectStorageConfirmBlobDeletion: (blobs: vec blob) -> ();
+  _immutableObjectStorageCreateCertificate: (blobHash: text) ->
+   (_ImmutableObjectStorageCreateCertificateResult);
+  _immutableObjectStorageRefillCashier: (refillInformation:
+   opt _ImmutableObjectStorageRefillInformation) ->
+   (_ImmutableObjectStorageRefillResult);
+  _immutableObjectStorageUpdateGatewayPrincipals: () -> ();
+  _initializeAccessControl: () -> ();
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  clearActivatedAccounts: () -> (variant {
+                                   err: text;
+                                   ok: text;
+                                 });
+  clearFollowups: () -> (variant {
+                           err: text;
+                           ok: text;
+                         });
+  clearReactivations: () -> (variant {
+                               err: text;
+                               ok: text;
+                             });
+  deleteActivatedAccounts: (ids: vec nat) -> (variant {
+                                                err: text;
+                                                ok: text;
+                                              });
+  deleteFollowups: (ids: vec nat) -> (variant {
+                                        err: text;
+                                        ok: text;
+                                      });
+  deleteReactivations: (ids: vec nat) -> (variant {
+                                            err: text;
+                                            ok: text;
+                                          });
+  exportReactivation: (id: nat) ->
+   (variant {
+      err: text;
+      ok: AlreadyActivated;
+    });
+  getActivatedAccounts: (search: opt text) -> (vec AlreadyActivated) query;
+  getActivatedData: () -> (vec AlreadyActivated) query;
+  getCallerUserRole: () -> (UserRole) query;
+  getDormantAccounts: () -> (vec DormantAccount) query;
+  getFollowups: () -> (vec FollowupRecord) query;
+  getFollowupsData: () -> (vec FollowupRecord) query;
+  getPendingReactivations: () -> (vec OnlineReactivation) query;
+  getPendingReactivationsData: () -> (vec OnlineReactivation) query;
+  getPublicationAccounts: () -> (vec PublicationAccount) query;
+  isCallerAdmin: () -> (bool) query;
+  seedDormantAccounts: (accounts: vec DormantAccount) ->
+   (variant {
+      err: text;
+      ok: text;
+    });
+  submitFollowup: (accountNumber: text, phoneNumber: text) ->
+   (variant {
+      err: text;
+      ok: text;
+    });
+  submitOnlineReactivation: (fullName: text, phoneNumber: text,
+   accountNumber: text, extraInfo: opt text, ghanaCardFrontKey: ExternalBlob,
+   ghanaCardBackKey: ExternalBlob, ghanaCardSelfieKey: ExternalBlob) ->
+   (variant {
+      err: text;
+      ok: text;
+    });
+  verifyAccount: (accountNumber: text) -> (VerifyResult) query;
+}

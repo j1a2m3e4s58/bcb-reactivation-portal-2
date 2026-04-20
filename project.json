@@ -1,0 +1,24 @@
+{
+  "overview": "Dormant Account Reactivation Portal for BAWJIASE COMMUNITY BANK PLC — a full-stack banking web app for managing dormant account reactivation workflows. Customers can browse the publication list, verify their accounts, submit phone follow-ups, and upload Ghana Card documents for online reactivation. Staff can securely review submissions, manage follow-ups, export printable reactivation forms, and track activated accounts.",
+  "features": [
+    "Publication list with searchable dormant accounts",
+    "Two-step account verification and phone follow-up for customers",
+    "Online reactivation form with 3 Ghana Card image uploads",
+    "Staff dashboard with Internet Identity login",
+    "Staff management of follow-ups, reactivations, and activated accounts",
+    "Printable reactivation form with bank branding",
+    "Dark/light mode with persistent preference",
+    "Responsive banking UI with toasts and confirmation dialogs"
+  ],
+  "category": "productivity",
+  "tags": [
+    "banking",
+    "fintech",
+    "reactivation",
+    "dormant-accounts",
+    "ghana",
+    "staff-portal",
+    "document-upload"
+  ],
+  "last_updated": "2026-04-19T23:15:40.800Z"
+}
